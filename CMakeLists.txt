@@ -25,17 +25,22 @@ include(${FREERTOS_KERNEL_PATH}/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_i
 project(main C CXX ASM)
 pico_sdk_init()
 
-include_directories(${CMAKE_SOURCE_DIR}/libs) # importa o freeRTOS.config.h
+include_directories(${CMAKE_SOURCE_DIR}/libs ${CMAKE_SOURCE_DIR}/tasks) # importa o freeRTOS.config.h
 
-add_executable(${PROJECT_NAME} main.c libs/buttons.c libs/osal.c libs/leds.c libs/display.c libs/buzzer.c)
+add_executable(${PROJECT_NAME} 
+    main.c 
+    libs/buttons.c libs/osal.c libs/leds.c libs/display.c libs/buzzer.c libs/led_matrix.c
+    tasks/state.c tasks/core_task.c tasks/semaphore_task.c tasks/pedestrian_semaphore_task.c tasks/buzzer_task.c tasks/display_task.c
+)
 
 target_link_libraries(${PROJECT_NAME} 
-        pico_stdlib
-        hardware_i2c
-        hardware_pwm
-        FreeRTOS-Kernel         # Kernel do FreeRTOS
-        FreeRTOS-Kernel-Heap4   # Gerenciador de memoria
-        )
+    pico_stdlib
+    hardware_i2c
+    hardware_pwm
+    hardware_pio
+    FreeRTOS-Kernel         # Kernel do FreeRTOS
+    FreeRTOS-Kernel-Heap4   # Gerenciador de memoria
+)
 
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
 pico_enable_stdio_uart(${PROJECT_NAME} 0)

@@ -25,7 +25,7 @@ void leds_set_green(bool status) {
     gpio_put(GREEN_LED_PIN, status);
 }
 
-void leds_unset_all() {
+void leds_clear() {
     leds_set_green(false);
     leds_set_yellow(false);
     leds_set_red(false);

@@ -1,0 +1,1 @@
+void pedestrian_semaphore_task();
